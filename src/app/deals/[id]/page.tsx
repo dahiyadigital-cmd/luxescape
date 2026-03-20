@@ -2,18 +2,15 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
 import { Suspense } from "react";
-import { fetchDealById, fetchAllSlugs } from "@/lib/api";
+import { fetchDealById } from "@/lib/api";
 import type { Metadata } from "next";
 import DealDetailClient from "./DealDetailClient";
+
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ adults?: string; children?: string }>;
-}
-
-export async function generateStaticParams() {
-  const slugs = await fetchAllSlugs();
-  return slugs.map((id) => ({ id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
