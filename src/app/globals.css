@@ -1,26 +1,297 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* ===== CSS CUSTOM PROPERTIES ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --clr-bg: #080811;
+  --clr-bg2: #0e0e1c;
+  --clr-surface: #12121f;
+  --clr-surface2: #1a1a2e;
+  --clr-border: rgba(201, 168, 76, 0.15);
+  --clr-gold: #c9a84c;
+  --clr-gold-light: #e8c96a;
+  --clr-gold-dim: rgba(201, 168, 76, 0.12);
+  --clr-cream: #f5f0e8;
+  --clr-text: #e8e4d8;
+  --clr-text-muted: #8a8299;
+  --clr-white: #ffffff;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-gold: 0 4px 24px rgba(201, 168, 76, 0.2);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.serif { font-family: var(--font-serif); }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* ===== LAYOUT UTILITIES ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+/* ===== GOLD DIVIDER ===== */
+.gold-line {
+  display: inline-block;
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--clr-gold), transparent);
+  border-radius: 2px;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--clr-gold), #a8893a);
+  color: #080811;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  box-shadow: var(--shadow-gold);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--clr-gold-light), var(--clr-gold));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201, 168, 76, 0.4);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: transparent;
+  color: var(--clr-gold);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--clr-gold);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.btn-outline:hover {
+  background: var(--clr-gold-dim);
+  color: var(--clr-gold-light);
+}
+
+/* ===== BADGE ===== */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, var(--clr-gold), #a8893a);
+  color: #080811;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
+
+/* ===== DEAL CARD ===== */
+.deal-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.deal-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(201, 168, 76, 0.4);
+  box-shadow: var(--shadow-card), 0 0 0 1px rgba(201, 168, 76, 0.1);
+}
+
+.deal-card-image {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.deal-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.deal-card:hover .deal-card-image img {
+  transform: scale(1.06);
+}
+
+.deal-card-image .badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1;
+}
+
+.deal-card-body {
+  padding: 20px;
+}
+
+.deal-card-location {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clr-gold);
+  margin-bottom: 6px;
+}
+
+.deal-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--clr-cream);
+  margin-bottom: 12px;
+}
+
+.deal-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--clr-border);
+}
+
+.deal-card-nights {
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+}
+
+.deal-card-price {
+  text-align: right;
+}
+
+.deal-card-price .was {
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+  text-decoration: line-through;
+}
+
+.deal-card-price .now {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--clr-gold);
+  line-height: 1;
+}
+
+.deal-card-price .per {
+  font-size: 0.7rem;
+  color: var(--clr-text-muted);
+}
+
+/* ===== SECTION HEADINGS ===== */
+.section-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--clr-gold);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--clr-cream);
+  margin-bottom: 16px;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--clr-text-muted);
+  max-width: 480px;
+}
+
+/* ===== GRID ===== */
+.deals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .section { padding: 60px 0; }
+}
+
+@media (max-width: 480px) {
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .deals-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--clr-bg); }
+::-webkit-scrollbar-thumb { background: var(--clr-surface2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--clr-gold); }
