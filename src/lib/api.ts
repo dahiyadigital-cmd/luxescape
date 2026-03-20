@@ -1,11 +1,4 @@
-/**
- * Data fetch helpers — tries Supabase first, falls back to local static data.
- * This lets the app work even if Supabase is unavailable or the schema hasn't
- * been run yet.
- */
-
 import { supabase } from "./supabase";
-import { deals as localDeals } from "@/data/deals";
 import type { Deal, RoomPackage } from "@/data/deals";
 import type { HotelRow, RoomPackageRow } from "./database.types";
 
@@ -61,91 +54,56 @@ function mapRoom(r: RoomPackageRow): RoomPackage {
 
 // ── Fetch ALL deals ───────────────────────────────────────────────────────────
 export async function fetchDeals(): Promise<Deal[]> {
-  try {
-    const { data, error } = await supabase
-      .from("hotels")
-      .select(`*, room_packages(*)`)
-      .eq("is_active", true)
-      .order("slug");
+  const { data, error } = await supabase
+    .from("hotels")
+    .select(`*, room_packages(*)`)
+    .eq("is_active", true)
+    .order("slug");
 
-    if (error || !data || data.length === 0) {
-      console.warn("[fetchDeals] Falling back to local data:", error?.message);
-      return localDeals;
-    }
-
-    return (data as HotelWithRooms[]).map((hotel) =>
-      mapHotel(hotel, hotel.room_packages ?? [])
-    );
-  } catch (err) {
-    console.warn("[fetchDeals] Exception, using local data:", err);
-    return localDeals;
-  }
+  if (error) throw new Error(error.message);
+  return (data as HotelWithRooms[]).map((hotel) =>
+    mapHotel(hotel, hotel.room_packages ?? [])
+  );
 }
 
 // ── Fetch deals by category ──────────────────────────────────────────────────
-export async function fetchDealsByCategory(
-  category: string
-): Promise<Deal[]> {
+export async function fetchDealsByCategory(category: string): Promise<Deal[]> {
   if (category === "all") return fetchDeals();
 
-  try {
-    const { data, error } = await supabase
-      .from("hotels")
-      .select(`*, room_packages(*)`)
-      .eq("is_active", true)
-      .eq("category", category)
-      .order("slug");
+  const { data, error } = await supabase
+    .from("hotels")
+    .select(`*, room_packages(*)`)
+    .eq("is_active", true)
+    .eq("category", category)
+    .order("slug");
 
-    if (error || !data || data.length === 0) {
-      const all = await fetchDeals();
-      return all.filter((d) => d.category === category);
-    }
-
-    return (data as HotelWithRooms[]).map((hotel) =>
-      mapHotel(hotel, hotel.room_packages ?? [])
-    );
-  } catch {
-    const all = await fetchDeals();
-    return all.filter((d) => d.category === category);
-  }
+  if (error) throw new Error(error.message);
+  return (data as HotelWithRooms[]).map((hotel) =>
+    mapHotel(hotel, hotel.room_packages ?? [])
+  );
 }
 
 // ── Fetch single deal by slug ────────────────────────────────────────────────
 export async function fetchDealById(id: string): Promise<Deal | null> {
-  try {
-    const { data, error } = await supabase
-      .from("hotels")
-      .select(`*, room_packages(*)`)
-      .eq("slug", id)
-      .eq("is_active", true)
-      .single();
+  const { data, error } = await supabase
+    .from("hotels")
+    .select(`*, room_packages(*)`)
+    .eq("slug", id)
+    .eq("is_active", true)
+    .single();
 
-    if (error || !data) {
-      console.warn("[fetchDealById] Falling back to local data:", error?.message);
-      return localDeals.find((d) => d.id === id) ?? null;
-    }
-
-    const row = data as HotelWithRooms;
-    return mapHotel(row, row.room_packages ?? []);
-  } catch (err) {
-    console.warn("[fetchDealById] Exception, using local data:", err);
-    return localDeals.find((d) => d.id === id) ?? null;
-  }
+  if (error) return null;
+  const row = data as HotelWithRooms;
+  return mapHotel(row, row.room_packages ?? []);
 }
 
 // ── Fetch static params (for generateStaticParams) ──────────────────────────
 export async function fetchAllSlugs(): Promise<string[]> {
-  try {
-    const { data, error } = await supabase
-      .from("hotels")
-      .select("slug")
-      .eq("is_active", true);
+  const { data, error } = await supabase
+    .from("hotels")
+    .select("slug")
+    .eq("is_active", true);
 
-    if (error || !data || data.length === 0) {
-      return localDeals.map((d) => d.id);
-    }
-    return (data as Pick<HotelRow, 'slug'>[]).map((h) => h.slug);
-  } catch {
-    return localDeals.map((d) => d.id);
-  }
+  if (error || !data) return [];
+  return (data as Pick<HotelRow, "slug">[]).map((h) => h.slug);
 }
