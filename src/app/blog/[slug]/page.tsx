@@ -94,10 +94,6 @@ export default async function BlogPostPage({
       "@type": "Organization",
       name: "LuxEscape",
       url: SITE_URL,
-      logo: {
-        "@type": "ImageObject",
-        url: `${SITE_URL}/logo.png`,
-      },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
