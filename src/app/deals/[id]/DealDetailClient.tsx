@@ -390,9 +390,13 @@ export default function DealDetailClient({ deal }: { deal: Deal }) {
                   <span style={{ fontFamily: "var(--font-serif)", fontSize: "1.1rem", color: "var(--clr-gold)" }}>${savings.toLocaleString()}</span>
                 </div>
 
-                <button className="btn-primary" style={{ width: "100%", justifyContent: "center", gap: 8 }}>
+                <a
+                  href={`/checkout/${deal.id}?package=${chosenRoom.id}&adults=${adults}&children=${children}`}
+                  className="btn-primary"
+                  style={{ width: "100%", justifyContent: "center", gap: 8, display: "flex", textDecoration: "none" }}
+                >
                   Book This Escape <FiArrowRight size={14} />
-                </button>
+                </a>
 
                 {/* Trust signals */}
                 <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 16 }}>

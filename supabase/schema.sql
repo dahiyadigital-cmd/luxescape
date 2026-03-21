@@ -54,6 +54,29 @@ CREATE TABLE IF NOT EXISTS room_packages (
   created_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS bookings (
+  id                        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  booking_ref               TEXT UNIQUE NOT NULL,
+  hotel_id                  UUID REFERENCES hotels(id) ON DELETE SET NULL,
+  hotel_slug                TEXT,
+  package_slug              TEXT,
+  package_name              TEXT,
+  stripe_payment_intent_id  TEXT UNIQUE,
+  status                    TEXT CHECK (status IN ('pending','paid','cancelled')) DEFAULT 'pending',
+  guest_name                TEXT NOT NULL,
+  guest_email               TEXT NOT NULL,
+  guest_phone               TEXT,
+  adults                    INTEGER DEFAULT 2,
+  children                  INTEGER DEFAULT 0,
+  check_in                  DATE,
+  check_out                 DATE,
+  nights                    INTEGER,
+  special_requests          TEXT,
+  total_amount              NUMERIC(10,2),
+  currency                  TEXT DEFAULT 'usd',
+  created_at                TIMESTAMPTZ DEFAULT NOW()
+);
+
 
 -- ── 2. INDEXES ────────────────────────────────────────────────
 
