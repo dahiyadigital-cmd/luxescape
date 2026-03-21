@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   fetchPost,
-  fetchAllPostSlugs,
   getFeaturedImage,
   getAuthorName,
   getPostCategories,
@@ -13,15 +12,9 @@ import {
   formatDate,
 } from "@/lib/wordpress";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://luxescape.vercel.app";
-
-// ── ISR: pre-build the 20 most recent slugs ───────────────────────────────────
-export async function generateStaticParams() {
-  const slugs = await fetchAllPostSlugs();
-  return slugs.slice(0, 20).map((slug) => ({ slug }));
-}
 
 // ── SEO metadata ─────────────────────────────────────────────────────────────
 export async function generateMetadata({

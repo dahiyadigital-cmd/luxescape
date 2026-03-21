@@ -12,7 +12,7 @@ import {
   formatDate,
 } from "@/lib/wordpress";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://luxescape.vercel.app";
 
