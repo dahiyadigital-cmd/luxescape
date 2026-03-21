@@ -8,6 +8,7 @@ import { FiMenu, FiX } from "react-icons/fi";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/deals", label: "Deals" },
+  { href: "/blog", label: "Journal" },
   { href: "/about", label: "About" },
 ];
 
