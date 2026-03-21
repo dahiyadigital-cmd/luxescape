@@ -36,7 +36,7 @@ export async function generateMetadata({
     keywords: `luxury travel, ${getPostCategories(post)
       .map((c) => c.name)
       .join(", ")}`,
-    authors: [{ name: getAuthorName(post) }],
+    authors: [{ name: "LuxEscape Team" }],
     openGraph: {
       title: stripHtml(post.title.rendered),
       description,
@@ -44,7 +44,7 @@ export async function generateMetadata({
       url: canonicalUrl,
       publishedTime: post.date,
       modifiedTime: post.modified,
-      authors: [getAuthorName(post)],
+      authors: ["LuxEscape Team"],
       images: img ? [{ url: img, width: 1200, height: 630, alt: stripHtml(post.title.rendered) }] : [],
       siteName: "LuxEscape",
     },
@@ -71,7 +71,7 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   const img = getFeaturedImage(post);
-  const author = getAuthorName(post);
+  const author = "LuxEscape Team";
   const cats = getPostCategories(post);
   const mins = readingTime(post.content.rendered);
   const description = stripHtml(post.excerpt.rendered).slice(0, 160);
@@ -87,8 +87,8 @@ export default async function BlogPostPage({
     datePublished: post.date,
     dateModified: post.modified,
     author: {
-      "@type": "Person",
-      name: author,
+      "@type": "Organization",
+      name: "LuxEscape Team",
     },
     publisher: {
       "@type": "Organization",

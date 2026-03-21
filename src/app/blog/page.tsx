@@ -157,7 +157,7 @@ export default async function BlogPage() {
             >
               {posts.map((post, i) => {
                 const img = getFeaturedImage(post);
-                const author = getAuthorName(post);
+                const author = "LuxEscape Team";
                 const cats = getPostCategories(post);
                 const mins = readingTime(post.content.rendered);
                 const excerpt = stripHtml(post.excerpt.rendered);
